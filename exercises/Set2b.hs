@@ -16,7 +16,10 @@ import Data.List
 -- Hint! pattern matching is your friend.
 
 binomial :: Integer -> Integer -> Integer
-binomial = todo
+
+binomial _ 0 = 1
+binomial 0 _ = 0
+binomial n k = binomial (n - 1) k + binomial (n - 1) (k - 1)
 
 ------------------------------------------------------------------------------
 -- Ex 2: implement the odd factorial function. Odd factorial is like
@@ -27,8 +30,9 @@ binomial = todo
 --   oddFactorial 6 ==> 5*3*1 ==> 15
 
 oddFactorial :: Integer -> Integer
-oddFactorial = todo
-
+oddFactorial n = if even n then oddFactorial' (n - 1) else oddFactorial' n
+oddFactorial' n | n <= 1 = 1
+                | otherwise = n * oddFactorial' (n - 2)
 ------------------------------------------------------------------------------
 -- Ex 3: implement the Euclidean Algorithm for finding the greatest
 -- common divisor:
@@ -59,7 +63,11 @@ oddFactorial = todo
 -- * https://en.wikipedia.org/wiki/Euclidean_algorithm
 
 myGcd :: Integer -> Integer -> Integer
-myGcd = todo
+myGcd a b  | a == 0 = b
+           | b == 0 = a
+           | a > b = myGcd (a - b) b
+           | otherwise  = myGcd a (b - a)
+
 
 ------------------------------------------------------------------------------
 -- Ex 4: Implement the function leftpad which adds space characters
@@ -75,7 +83,10 @@ myGcd = todo
 -- * you can compute the length of a string with the length function
 
 leftpad :: String -> Int -> String
-leftpad = todo
+getspaces 0 spaces = spaces
+getspaces n spaces = getspaces (n - 1) (spaces ++ " ")
+leftpad  s n | length s >= n = s
+             | otherwise =  getspaces (n - length s) "" ++ s
 
 ------------------------------------------------------------------------------
 -- Ex 5: let's make a countdown for a rocket! Given a number, you
@@ -91,7 +102,10 @@ leftpad = todo
 -- * you'll probably need a recursive helper function
 
 countdown :: Integer -> String
-countdown = todo
+countTemp' :: (Eq a, Num a, Show a) => a -> [Char] -> [Char]
+countTemp' 0 s = s
+countTemp' n s = countTemp' (n - 1)  (s ++ (show n ++ "... "))
+countdown n = "Ready! " ++  countTemp' n "" ++ "Liftoff!"
 
 ------------------------------------------------------------------------------
 -- Ex 6: implement the function smallestDivisor that returns the
