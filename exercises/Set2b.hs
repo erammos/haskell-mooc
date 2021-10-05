@@ -123,7 +123,9 @@ countdown n = "Ready! " ++  countTemp' n "" ++ "Liftoff!"
 -- Hint: remember the mod function!
 
 smallestDivisor :: Integer -> Integer
-smallestDivisor = todo
+smallestDivisor' n i   | n `mod` i == 0 = i
+                       | otherwise = smallestDivisor' n (i + 1)
+smallestDivisor n = smallestDivisor' n 2
 
 ------------------------------------------------------------------------------
 -- Ex 7: implement a function isPrime that checks if the given number
@@ -132,7 +134,9 @@ smallestDivisor = todo
 -- Ps. 0 and 1 are not prime numbers
 
 isPrime :: Integer -> Bool
-isPrime = todo
+isPrime n | n <= 1 = False 
+          | smallestDivisor n == n  = True
+          | otherwise = False
 
 ------------------------------------------------------------------------------
 -- Ex 8: implement a function biggestPrimeAtMost that returns the
@@ -147,4 +151,5 @@ isPrime = todo
 --   biggestPrimeAtMost 10 ==> 7
 
 biggestPrimeAtMost :: Integer -> Integer
-biggestPrimeAtMost = todo
+biggestPrimeAtMost n | isPrime n = n
+                     | otherwise = biggestPrimeAtMost (n - 1)
